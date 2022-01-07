@@ -1,5 +1,19 @@
 {
-  "welcomeFile": "/nscommunitydmadminui5/index.html",
-  "authenticationMethod": "none",
-  "routes": []
+    "authenticationMethod": "route",
+    "routes": [
+        {
+            "source": "^(/.*)",
+            "target": "$1",
+            "service": "html5-apps-repo-rt",
+            "authenticationType": "xsuaa"
+        },
+        {
+            "source": "^/api/(.*)$",
+            "target": "$1",
+            "authenticationType": "xsuaa",
+            "service": "com.sap.ecm.reuse",
+            "endpoint": "ecmservice"
+          }
+    ],
+    "welcomeFile": "/cp.portal"
 }
