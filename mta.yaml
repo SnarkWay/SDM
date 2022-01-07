@@ -9,8 +9,10 @@ modules:
   - name: CommunityDMAdmin_html_repo_runtime
   - name: uaa_CommunityDMAdmin
   - name: sapcommunity_dm
-    properties: 
-      destinations: "[{\"name\": \"sdibackend\", \"url\": \"https://api-sdm-di.cfapps.sap.hana.ondemand.com\", \"forwardAuthToken\": true}]"
+    properties:
+      destinations: '[{"name": "sdibackend", "url": "https://api-sdm-di.cfapps.sap.hana.ondemand.com",
+        "forwardAuthToken": true}]'
+  - name: portal_resources_CommunityDMAdmin
   parameters:
     disk-quota: 256M
     memory: 256M
@@ -36,6 +38,20 @@ modules:
     commands:
     - npm run build
     supported-platforms: []
+- name: flp
+  type: com.sap.application.content
+  path: flp
+  requires:
+  - name: portal_resources_CommunityDMAdmin
+    parameters:
+      content-target: true
+      service-key:
+        config:
+          content-endpoint: developer
+        name: content-deploy-key
+  - name: CommunityDMAdmin_html_repo_host
+  - name: CommunityDMAdmin_ui_deployer
+  - name: uaa_CommunityDMAdmin
 resources:
 - name: CommunityDMAdmin_html_repo_runtime
   type: org.cloudfoundry.managed-service
@@ -58,6 +74,11 @@ resources:
   type: org.cloudfoundry.managed-service
   parameters:
     service: sdm
+    service-plan: standard
+- name: portal_resources_CommunityDMAdmin
+  type: org.cloudfoundry.managed-service
+  parameters:
+    service: portal
     service-plan: standard
 build-parameters:
   before-all:
